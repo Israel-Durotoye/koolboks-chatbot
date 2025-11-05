@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.env
+.DS_Store
+chroma_db/
+collection/
+rag_docs/
+dist/
+wordpress-plugin/
+node_modules/
+.git/
+test_*.py
+*.sh
+NGROK_SETUP.md
+TUNNEL_ACTIVE.md

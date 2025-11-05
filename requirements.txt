@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+streamlit
+python-multipart
+openai
+python-dotenv
+chromadb
+sentence-transformers
+paddleocr
+pypdf2
+numpy
+requests
+flagembedding
+pydantic
