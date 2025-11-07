@@ -80,7 +80,7 @@ CONTACT: For details not in knowledge base, share +2348116402869 or WhatsApp lin
     try:
         # Generate response using the updated Chat Completions API
         response = _openai_client.chat.completions.create(
-            model=model,
+            model = model,
             messages=messages,
             temperature=temperature,
             max_tokens=max_tokens,

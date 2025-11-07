@@ -59,7 +59,8 @@
                 
                 // Show welcome message if first time
                 if ($('.koolboks-chat-messages .message').length === 0) {
-                    KoolboksChat.addMessage('bot', 'Hello! I\'m the Koolboks AI assistant. How can I help you today?');
+                    const welcomeMsg = koolboksChat.welcomeMessage || 'Hello! How can I help you today?';
+                    KoolboksChat.addMessage('bot', welcomeMsg);
                 }
                 
                 // Focus on input
@@ -114,6 +115,9 @@
                         
                         if (botResponse) {
                             KoolboksChat.addMessage('bot', botResponse);
+                            
+                            // Log conversation to database
+                            KoolboksChat.logConversation(query, botResponse);
                             
                             // Update chat history
                             chatHistory.push({
@@ -172,6 +176,23 @@
         
         hideTyping: function() {
             $('.koolboks-typing-indicator').remove();
+        },
+        
+        logConversation: function(userMessage, botResponse) {
+            $.ajax({
+                url: koolboksChat.ajaxUrl,
+                type: 'POST',
+                data: {
+                    action: 'koolboks_log_conversation',
+                    nonce: koolboksChat.nonce,
+                    session_id: sessionId,
+                    user_message: userMessage,
+                    bot_response: botResponse
+                },
+                error: function(error) {
+                    console.error('Failed to log conversation:', error);
+                }
+            });
         },
         
         toggleLeadForm: function(e) {

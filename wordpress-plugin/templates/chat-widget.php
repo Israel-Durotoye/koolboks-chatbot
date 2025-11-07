@@ -3,14 +3,14 @@
     <!-- Chat Button -->
     <button class="koolboks-chat-button <?php echo esc_attr(get_option('koolboks_chat_position', 'bottom-right')); ?>" 
             aria-label="Open chat">
-        💬
+        <?php echo esc_html(get_option('koolboks_chat_icon', '💬')); ?>
     </button>
 
     <!-- Chat Window -->
     <div class="koolboks-chat-window <?php echo esc_attr(get_option('koolboks_chat_position', 'bottom-right')); ?>">
         <!-- Header -->
         <div class="koolboks-chat-header">
-            <h3>Koolboks Assistant</h3>
+            <h3><?php echo esc_html(get_option('koolboks_chat_title', 'Koolboks Chat')); ?></h3>
             <button class="koolboks-chat-close" aria-label="Close chat">&times;</button>
         </div>
 
