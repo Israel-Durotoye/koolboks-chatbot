@@ -718,30 +718,34 @@ class Koolboks_Chat {
                         return;
                     }
                     
-                    var formData = new FormData();
-                    for (var i = 0; i < files.length; i++) {
-                        formData.append('files[]', files[i]);
-                    }
-                    
                     $('#upload-progress').show();
                     $('#upload-status').text('Uploading...');
                     
-                    $.ajax({
-                        url: '<?php echo esc_js(get_option('koolboks_api_url')); ?>/upload/',
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function(response) {
-                            $('#upload-status').text('Upload successful!');
-                            $('#koolboks-pdf-file').val('');
-                            setTimeout(function() {
-                                $('#upload-progress').hide();
-                            }, 2000);
-                        },
-                        error: function() {
-                            $('#upload-status').text('Upload failed. Please try again.');
-                        }
+                    // Upload files one at a time
+                    var uploadPromises = [];
+                    for (var i = 0; i < files.length; i++) {
+                        var formData = new FormData();
+                        formData.append('file', files[i]);  // Changed from 'files[]' to 'file'
+                        
+                        uploadPromises.push(
+                            $.ajax({
+                                url: '<?php echo esc_js(get_option('koolboks_api_url')); ?>/upload/',
+                                type: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false
+                            })
+                        );
+                    }
+                    
+                    $.when.apply($, uploadPromises).done(function() {
+                        $('#upload-status').text('Upload successful!');
+                        $('#koolboks-pdf-file').val('');
+                        setTimeout(function() {
+                            $('#upload-progress').hide();
+                        }, 2000);
+                    }).fail(function() {
+                        $('#upload-status').text('Upload failed. Please try again.');
                     });
                 });
             });
